@@ -10,7 +10,7 @@ class TestCollection(unittest.TestCase):
         self.collection_name = 'test_collection'
         self.connection = DatabaseConnection(path_to_db=path_to_db)
         self.collection = Collection(db_connection=self.connection)
-        self.VectorConfiguration = VectorConfiguration(vector_size=100, distance_metric='cosine')
+        self.VectorConfiguration = VectorConfiguration(vector_size=1536, distance_metric='cosine')
 
     def tearDown(self):
         self.collection.delete_collection(self.collection_name)
