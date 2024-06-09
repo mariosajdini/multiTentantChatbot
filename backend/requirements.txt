@@ -1,1 +1,5 @@
 qdrant-client
+langchain-qdrant
+langchain-openai
+langchain
+langchain-community
