@@ -4,7 +4,7 @@ from backend.app.db.database_connection import DatabaseConnection
 
 class TestDatabaseConnection(unittest.TestCase):
     def setUp(self):
-        self.db_connection = DatabaseConnection(path_to_db='../../data')
+        self.db_connection = DatabaseConnection()
 
     def test_connect(self):
         self.db_connection.connect()

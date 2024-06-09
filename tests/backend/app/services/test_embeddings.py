@@ -8,9 +8,8 @@ from backend.app.services.embedding import EmbeddingService
 
 class TestEmbeddingService(unittest.TestCase):
     def setUp(self):
-        path_to_db = '../../data'
         self.collection_name = 'test_collection'
-        self.connection = DatabaseConnection(path_to_db=path_to_db)
+        self.connection = DatabaseConnection()
         self.collection = Collection(db_connection=self.connection)
         self.VectorConfiguration = VectorConfiguration(vector_size=3, distance_metric='cosine')
         self.collection.create_collection(self.collection_name, self.VectorConfiguration.vector_params)

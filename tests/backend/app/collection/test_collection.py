@@ -6,9 +6,8 @@ from backend.app.db.vector_configuration import VectorConfiguration
 
 class TestCollection(unittest.TestCase):
     def setUp(self):
-        path_to_db = '../../data'
         self.collection_name = 'test_collection'
-        self.connection = DatabaseConnection(path_to_db=path_to_db)
+        self.connection = DatabaseConnection()
         self.collection = Collection(db_connection=self.connection)
         self.VectorConfiguration = VectorConfiguration(vector_size=1536, distance_metric='cosine')
 
