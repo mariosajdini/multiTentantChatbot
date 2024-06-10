@@ -19,13 +19,17 @@ class EmbeddingService:
         embeddings = self.embedding_client.embed_documents(documents)
         return embeddings
 
+    # def store_document(self, document, tenant_id):
+    #     document = Document(content=document, tenant_id=tenant_id)
+    #     self.qdrant_client.upsert(collection_name="documents", points=[document])
+
     def store_embedding(self, embeddings, docs, collection_name, tenant_id):
         points = []
         for i, document in enumerate(docs):
             point = PointStruct(
                 id=str(uuid.uuid4()),
                 vector=embeddings[i],
-                payload={"document": document, "tenant_id": tenant_id}
+                payload={"page_content": document, "tenant_id": tenant_id}
             )
             points.append(point)
         self.qdrant_client.upsert(collection_name=collection_name, points=points)
