@@ -3,13 +3,19 @@ import uuid
 from langchain_openai import OpenAIEmbeddings
 from qdrant_client.models import PointStruct
 from langchain_qdrant import Qdrant
-from backend.app.db.database_connection import DatabaseConnection
+
 
 os.getenv('OPENAI_API_KEY')
 
 
+def add_tenant_id_to_documents(documents, tenant_id):
+    for document in documents:
+        document.metadata['tenant_id'] = tenant_id
+
+
 class EmbeddingService:
-    def __init__(self, model, embedding_service, qdrant_client):
+    def __init__(self, embedding_service, qdrant_client, model=None,collection_name=None):
+        self.collection_name = collection_name
         self.qdrant_client = qdrant_client
         self.model = model
         self.embedding_service = embedding_service
@@ -19,9 +25,14 @@ class EmbeddingService:
         embeddings = self.embedding_client.embed_documents(documents)
         return embeddings
 
-    # def store_document(self, document, tenant_id):
-    #     document = Document(content=document, tenant_id=tenant_id)
-    #     self.qdrant_client.upsert(collection_name="documents", points=[document])
+    def embed_and_store_documents(self, documents, tenant_id):
+        doc_store = Qdrant.from_existing_collection(
+            embedding=self.embedding_client,
+            collection_name="test_collection",
+            url="localhost:6333"
+        )
+        add_tenant_id_to_documents(documents, tenant_id)
+        doc_store.add_documents(documents)
 
     def store_embedding(self, embeddings, docs, collection_name, tenant_id):
         points = []
