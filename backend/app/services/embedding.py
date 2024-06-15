@@ -40,7 +40,7 @@ class EmbeddingService:
             point = PointStruct(
                 id=str(uuid.uuid4()),
                 vector=embeddings[i],
-                payload={"page_content": document, "tenant_id": tenant_id}
+                payload={"page_content": document, "metadata.tenant_id": tenant_id}
             )
             points.append(point)
         self.qdrant_client.upsert(collection_name=collection_name, points=points)

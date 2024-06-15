@@ -16,7 +16,7 @@ class SearchService:
         query_filter = models.Filter(
             must=[
                 models.FieldCondition(
-                    key="tenant_id",
+                    key="metadata.tenant_id",
                     match=models.MatchValue(
                         value=tenant_id,
                     ),
@@ -30,13 +30,13 @@ class SearchService:
             limit=limit,
         )
 
-    def get_tenant_retriever(self, collection_name, tenant_id, score_threshold=0.5, limit=2):
+    def get_tenant_retriever(self, collection_name, tenant_id, score_threshold=0.8, limit=2):
         qdrant = Qdrant(self.client, collection_name, self.embedding_service)
         filter = models.Filter(
             must=[
 
                 models.FieldCondition(
-                    key="tenant_id",
+                    key="metadata.tenant_id",
                     match=models.MatchValue(value=tenant_id)
                 )
             ]
