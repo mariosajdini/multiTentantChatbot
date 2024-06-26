@@ -1,4 +1,7 @@
 import unittest
+
+from qdrant_client import models
+
 from backend.app.collection.Collection import Collection
 from backend.app.db.database_connection import DatabaseConnection
 from backend.app.db.vector_configuration import VectorConfiguration
@@ -16,6 +19,11 @@ class TestCollection(unittest.TestCase):
 
     def test_create_collection(self):
         self.collection.create_collection(self.collection_name, self.VectorConfiguration.vector_params)
+        self.connection.connection.create_payload_index(
+            collection_name=self.collection_name,
+            field_name="metadata.tenant_id",
+            field_schema=models.PayloadSchemaType.KEYWORD,
+        )
         collections_response = self.collection.list_collections()
         collection_names = [collection.name for collection in collections_response.collections]
         self.assertIn(self.collection_name, collection_names)

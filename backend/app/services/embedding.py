@@ -27,6 +27,7 @@ class EmbeddingService:
 
     def embed_and_store_documents(self, documents, tenant_id):
         doc_store = Qdrant.from_existing_collection(
+            path=None,
             embedding=self.embedding_client,
             collection_name="test_collection",
             url="localhost:6333"

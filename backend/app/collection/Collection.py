@@ -1,4 +1,5 @@
 from backend.app.db.database_connection import DatabaseConnection
+from qdrant_client import models
 
 
 class Collection:
@@ -7,7 +8,11 @@ class Collection:
 
     def create_collection(self, collection_name, vector_params):
         self.db_connection.connect()
-        self.db_connection.connection.create_collection(collection_name, vector_params)
+        self.db_connection.connection.create_collection(collection_name, vector_params,
+                                                        hnsw_config=models.HnswConfigDiff(
+                                                            payload_m=16,
+                                                            m=0,
+                                                        ), )
 
     def delete_collection(self, collection_name):
         self.db_connection.connect()
