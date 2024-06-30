@@ -8,6 +8,24 @@ This project is a Proof of Concept (POC) for a multi-tenant chatbot architecture
 
 ## How to Run the Project
 
+You can run the project eather locally or using Docker. The following steps will guide you through the process.
+
+### Using Docker
+
+1. **Clone the repository**:
+    ```bash
+    git clone <repository-url>
+    ```
+2. **Set up OpenAI API Key**:
+    Add the OpenAI API key to the `.env` file in the root of the project.
+    
+3. **Build and Run the Docker Compose**:
+    ```bash
+    docker-compose up --build
+    ```
+
+
+
 1. **Clone the repository**:
     ```bash
     git clone <repository-url>

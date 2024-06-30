@@ -30,14 +30,15 @@ app.add_middleware(
 )
 
 
+# Endpoint to load a document
 @app.post("/load-document/")
 async def load_document(file: UploadFile = File(...), tenant_id: str = Form(...)):
     file_path = f"data/{file.filename}"
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
-
     connection = DatabaseConnection()
-    embedding_service = EmbeddingService(model=None, embedding_service="openai", qdrant_client=connection.connection)
+    embedding_service = EmbeddingService(model=None, embedding_service="openai",
+                                         qdrant_client=connection.connection)
     loader = DocumentLoader(file_path)
     documents = loader.load()
     embedding_service.embed_and_store_documents(documents, tenant_id=tenant_id)
@@ -45,9 +46,11 @@ async def load_document(file: UploadFile = File(...), tenant_id: str = Form(...)
     if documents is None:
         raise HTTPException(status_code=500, detail="Failed to load document")
 
+    # Assuming the first document content is required for response
     return {"message": "Document loaded successfully", "content": documents[0]}
 
 
+# Endpoint to start a chat
 @app.post("/start-chat/")
 async def start_chat(tenant_id: str = Form(...), question: str = Form(...)):
     try:
@@ -61,6 +64,7 @@ async def start_chat(tenant_id: str = Form(...), question: str = Form(...)):
             raise HTTPException(status_code=500, detail="Chatbot failed to generate a response")
 
         return JSONResponse(content={"answer": reply})
+
     except Exception as e:
         logger.error(f"Error in start_chat: {e}")
         raise HTTPException(status_code=500, detail=str(e))

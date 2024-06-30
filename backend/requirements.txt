@@ -3,6 +3,6 @@ langchain-qdrant
 langchain-openai
 langchain
 langchain-community
-pymupdf
 fastapi
 uvicorn
+pymupdf

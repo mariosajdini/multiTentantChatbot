@@ -4,7 +4,6 @@ from langchain_openai import OpenAIEmbeddings
 from qdrant_client.models import PointStruct
 from langchain_qdrant import Qdrant
 
-
 os.getenv('OPENAI_API_KEY')
 
 
@@ -14,7 +13,7 @@ def add_tenant_id_to_documents(documents, tenant_id):
 
 
 class EmbeddingService:
-    def __init__(self, embedding_service, qdrant_client, model=None,collection_name=None):
+    def __init__(self, embedding_service, qdrant_client, model=None, collection_name=None):
         self.collection_name = collection_name
         self.qdrant_client = qdrant_client
         self.model = model
@@ -27,10 +26,10 @@ class EmbeddingService:
 
     def embed_and_store_documents(self, documents, tenant_id):
         doc_store = Qdrant.from_existing_collection(
-            path=None,
+            location="qdrant",
+            port=6333,
             embedding=self.embedding_client,
-            collection_name="test_collection",
-            url="localhost:6333"
+            collection_name="test_collection"
         )
         add_tenant_id_to_documents(documents, tenant_id)
         doc_store.add_documents(documents)
