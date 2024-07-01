@@ -16,6 +16,11 @@ RUN pip install --no-cache-dir -r /app/requirements.txt
 # Copy the backend directory
 COPY backend /app/backend
 
+# Copy the .env file
+COPY .env /app/
+
+ENV PYTHONPATH="/app"
+
 EXPOSE 8000
 
 CMD ["uvicorn", "backend.app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
