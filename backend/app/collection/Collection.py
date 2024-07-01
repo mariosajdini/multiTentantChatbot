@@ -14,6 +14,10 @@ class Collection:
                                                             m=0,
                                                         ), )
 
+    def does_collection_exist(self, collection_name):
+        self.db_connection.connect()
+        return self.db_connection.connection.collection_exists(collection_name=f"{collection_name}")
+
     def delete_collection(self, collection_name):
         self.db_connection.connect()
         self.db_connection.connection.delete_collection(collection_name)
