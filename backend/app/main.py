@@ -8,6 +8,7 @@ from backend.app.collection.Collection import Collection
 from backend.app.db.database_connection import DatabaseConnection
 from backend.app.db.vector_configuration import VectorConfiguration
 from backend.app.services.embedding import EmbeddingService
+from backend.app.config import config
 import shutil
 import logging
 
@@ -54,7 +55,7 @@ async def load_document(file: UploadFile = File(...), tenant_id: str = Form(...)
 @app.post("/start-chat/")
 async def start_chat(tenant_id: str = Form(...), question: str = Form(...)):
     try:
-        collection_name = "test_collection"
+        collection_name = config.COLLECTION_NAME
         model_vendor = 'openai'
         model_name = 'gpt-4'
         chatBot = ChatBot(tenant_id, collection_name, model_vendor, model_name)

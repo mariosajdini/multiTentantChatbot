@@ -3,13 +3,13 @@
 import os
 import sys
 
-
 from dotenv import load_dotenv
 from qdrant_client import models
 from backend.app.collection.Collection import Collection
 from backend.app.db.database_connection import DatabaseConnection
 from backend.app.db.vector_configuration import VectorConfiguration
 from backend.app.config import config  # Import Config
+
 
 def initialize_collection():
     collection_name = config.COLLECTION_NAME  # Use centralized config
@@ -26,6 +26,6 @@ def initialize_collection():
         field_schema=models.PayloadSchemaType.KEYWORD,
     )
 
+
 if __name__ == "__main__":
     initialize_collection()
-

@@ -3,7 +3,7 @@ import uuid
 from langchain_openai import OpenAIEmbeddings
 from qdrant_client.models import PointStruct
 from langchain_qdrant import Qdrant
-
+from backend.app.config import config
 os.getenv('OPENAI_API_KEY')
 
 
@@ -26,10 +26,10 @@ class EmbeddingService:
 
     def embed_and_store_documents(self, documents, tenant_id):
         doc_store = Qdrant.from_existing_collection(
-            location="qdrant",
+            location=config.QDRANT_HOST,
             port=6333,
             embedding=self.embedding_client,
-            collection_name="test_collection"
+            collection_name=config.COLLECTION_NAME
         )
         add_tenant_id_to_documents(documents, tenant_id)
         doc_store.add_documents(documents)
