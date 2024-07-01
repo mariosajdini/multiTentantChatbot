@@ -17,7 +17,6 @@ def initialize_collection():
     collection = Collection(db_connection=connection)
     vector_config = VectorConfiguration(vector_size=1536, distance_metric='cosine')
     if collection.does_collection_exist(collection_name):
-        print(f"Collection {collection_name} already exists. Skipping creation.")
         return
     # Create collection
     collection.create_collection(collection_name, vector_config.vector_params)
